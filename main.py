@@ -1,35 +1,21 @@
 import time
 import random
 import copy
+from hantei import hantei
 
-row1=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-row2=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-row3=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-row4=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-row5=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-row6=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-row7=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-row8=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-row9=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-row10=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-row11=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-row12=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-row13=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-row14=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-row15=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-row=[row1,row2,row3,row4,row5,row6,row7,row8,row9,row10,row11,row12,row13,row14,row15]
-clm=[[row[i][j] for i in range(15)] for j in range(15)]
-miginaname1=[[row[j][j+k] for j in range(15-k)] for k in range(11)]
-miginaname2=[[row[j+k][j] for j in range(15-k)] for k in range(11)]
+row=[[0]*19]*19
+clm=[[row[i][j] for i in range(19)] for j in range(19)]
+miginaname1=[[row[j][j+k] for j in range(19-k)] for k in range(11)]
+miginaname2=[[row[j+k][j] for j in range(19-k)] for k in range(11)]
 miginaname2.pop(0)
 
-hidarinaname1=[[row[j][14-j-k] for j in range(15-k)] for k in range(11)]
-hidarinaname2=[[row[j+k][14-j] for j in range(15-k)] for k in range(11)]
+hidarinaname1=[[row[j][14-j-k] for j in range(19-k)] for k in range(11)]
+hidarinaname2=[[row[j+k][14-j] for j in range(19-k)] for k in range(11)]
 hidarinaname2.pop(0)
 
-r=[[0 for j in range(15) if row[i][j]=="*"] for i in range(15)]
-sente=[[0 for j in range(15) if row[i][j]=="*"] for i in range(15)]
-gote=[[0 for j in range(15) if row[i][j]=="*"] for i in range(15)]
+r=[[0 for j in range(19) if row[i][j]==0] for i in range(19)]
+sente=[[0 for j in range(19) if row[i][j]==0] for i in range(19)]
+gote=[[0 for j in range(19) if row[i][j]==0] for i in range(19)]
 
 r1=row
 
@@ -48,9 +34,25 @@ katani=100
 ichi=50
 kataichi=20
 
+def init():
+    row=[[0]*19]*19
+    clm=[[row[i][j] for i in range(19)] for j in range(19)]
+    miginaname1=[[row[j][j+k] for j in range(19-k)] for k in range(11)]
+    miginaname2=[[row[j+k][j] for j in range(19-k)] for k in range(11)]
+    miginaname2.pop(0)
+
+    hidarinaname1=[[row[j][14-j-k] for j in range(19-k)] for k in range(11)]
+    hidarinaname2=[[row[j+k][14-j] for j in range(19-k)] for k in range(11)]
+    hidarinaname2.pop(0)
+
+    r=[[0 for j in range(19) if row[i][j]==0] for i in range(19)]
+    sente=[[0 for j in range(19) if row[i][j]==0] for i in range(19)]
+    gote=[[0 for j in range(19) if row[i][j]==0] for i in range(19)]
+    return row,clm,miginaname1,miginaname2,hidarinaname1,hidarinaname2,r,sente,gote
+
 def nyuryoku():
     gyou,retu=map(int,input("指し手を行、列の順に空白で区切って入力してください：").split())
-    #row[15*(gyou-1)+retu-1]=1
+    #row[19*(gyou-1)+retu-1]=1
     gyou=gyou-1
     retu=retu-1
     if soutesu%2==1:
@@ -65,8 +67,8 @@ def hyouji():
     i=0
     j=0
     
-    while i<15:
-        while j<15:
+    while i<19:
+        while j<19:
             if r1[i][j]=="*":
                 r1[i][j]="＊"
             elif r1[i][j]==1:
@@ -123,71 +125,36 @@ while taikyokusu<yotei:
     taikyokusu=taikyokusu+1
     #print(str(taikyokusu)+"局目")
     soutesu=1
-    row1=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-    row2=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-    row3=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-    row4=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-    row5=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-    row6=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-    row7=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-    row8=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-    row9=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-    row10=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-    row11=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-    row12=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-    row13=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-    row14=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-    row15=["*","*","*","*","*","*","*","*","*","*","*","*","*","*","*"]
-    row=[row1,row2,row3,row4,row5,row6,row7,row8,row9,row10,row11,row12,row13,row14,row15]
-    clm=[[row[i][j] for i in range(15)] for j in range(15)]
-    miginaname1=[[row[j][j+k] for j in range(15-k)] for k in range(11)]
-    miginaname2=[[row[j+k][j] for j in range(15-k)] for k in range(11)]
-    miginaname2.pop(0)
-    
-    hidarinaname1=[[row[j][14-j-k] for j in range(15-k)] for k in range(11)]
-    hidarinaname2=[[row[j+k][14-j] for j in range(15-k)] for k in range(11)]
-    hidarinaname2.pop(0)
-    
-    r=[[0 for j in range(15) if row[i][j]=="*"] for i in range(15)]
-    sente=[[0 for j in range(15) if row[i][j]=="*"] for i in range(15)]
-    gote=[[0 for j in range(15) if row[i][j]=="*"] for i in range(15)]
+    row,clm,miginaname1,miginaname2,hidarinaname1,hidarinaname2,r,sente,gote=init()
     while soutesu<226:
         if soutesu==1:
             #print(str(soutesu)+"手目")
             row[7][7]=1
         
-        clm=[[row[i][j] for i in range(15)] for j in range(15)]
-        miginaname1=[[row[j][j+k] for j in range(15-k)] for k in range(11)]
-        miginaname2=[[row[j+k][j] for j in range(15-k)] for k in range(11)]
+        clm=[[row[i][j] for i in range(19)] for j in range(19)]
+        miginaname1=[[row[j][j+k] for j in range(19-k)] for k in range(11)]
+        miginaname2=[[row[j+k][j] for j in range(19-k)] for k in range(11)]
         miginaname2.pop(0)
         
-        hidarinaname1=[[row[j][14-j-k] for j in range(15-k)] for k in range(11)]
-        hidarinaname2=[[row[j+k][14-j] for j in range(15-k)] for k in range(11)]
+        hidarinaname1=[[row[j][14-j-k] for j in range(19-k)] for k in range(11)]
+        hidarinaname2=[[row[j+k][14-j] for j in range(19-k)] for k in range(11)]
         hidarinaname2.pop(0)
         
-        #hyouji()
-    
-        j=0
-        i=0
-        
-        r=[[0 for j in range(15)] for i in range(15)]
-        sente_kougeki=[[0 for j in range(15) if row[i][j]=="*"] for i in range(15)]
-        sente_bougyo=[[0 for j in range(15) if row[i][j]=="*"] for i in range(15)]
-        gote_kougeki=[[0 for j in range(15) if row[i][j]=="*"] for i in range(15)]
-        gote_bougyo=[[0 for j in range(15) if row[i][j]=="*"] for i in range(15)]
-        while i<=14:
-            while j<=14:
+        r=[[0 for j in range(19)] for i in range(19)]
+        sente_kougeki=[[0 for j in range(19) if row[i][j]==0] for i in range(19)]
+        sente_bougyo=[[0 for j in range(19) if row[i][j]==0] for i in range(19)]
+        gote_kougeki=[[0 for j in range(19) if row[i][j]==0] for i in range(19)]
+        gote_bougyo=[[0 for j in range(19) if row[i][j]==0] for i in range(19)]
+        for i in range(19):
+            for j in range(19):
                 if soutesu%2==1:
-                    hantei2()
+                    hantei()
                 else:
-                    hantei2()
+                    hantei()
                 if row[i][j]==1 or row[i][j]==2:
                     r[i][j]=0
                 if len(syouhai)>=taikyokusu and (syouhai[len(syouhai)-1]==1 or syouhai[len(syouhai)-1]==2):
                     break
-                j=j+1
-            j=0
-            i=i+1
             if len(syouhai)>=taikyokusu and (syouhai[len(syouhai)-1]==1 or syouhai[len(syouhai)-1]==2):
                 break
         #hyouji_r()
