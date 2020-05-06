@@ -3,37 +3,6 @@ import random
 import copy
 from hantei import hantei
 
-row=[[0]*19]*19
-clm=[[row[i][j] for i in range(19)] for j in range(19)]
-miginaname1=[[row[j][j+k] for j in range(19-k)] for k in range(11)]
-miginaname2=[[row[j+k][j] for j in range(19-k)] for k in range(11)]
-miginaname2.pop(0)
-
-hidarinaname1=[[row[j][14-j-k] for j in range(19-k)] for k in range(11)]
-hidarinaname2=[[row[j+k][14-j] for j in range(19-k)] for k in range(11)]
-hidarinaname2.pop(0)
-
-r=[[0 for j in range(19) if row[i][j]==0] for i in range(19)]
-sente=[[0 for j in range(19) if row[i][j]==0] for i in range(19)]
-gote=[[0 for j in range(19) if row[i][j]==0] for i in range(19)]
-
-r1=row
-
-basyo=[]
-maxindex=[]
-
-syouhai=[]
-
-soutesu=0
-
-katayon=1000000
-san=50000
-katasan=500
-ni=200
-katani=100
-ichi=50
-kataichi=20
-
 def init():
     row=[[0]*19]*19
     clm=[[row[i][j] for i in range(19)] for j in range(19)]
@@ -115,6 +84,23 @@ def utu():
     else:
         a=2
     row[gyou][retu]=a
+
+r1=row
+
+basyo=[]
+maxindex=[]
+
+syouhai=[]
+
+soutesu=0
+
+katayon=1000000
+san=50000
+katasan=500
+ni=200
+katani=100
+ichi=50
+kataichi=20
 
 yotei=int(input("何局実行しますか？："))
 starttime=time.time()
